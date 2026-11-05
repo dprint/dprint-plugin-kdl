@@ -2,6 +2,26 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://plugins.dprint.dev/dprint/dprint-plugin-kdl/0.0.0/schema.json",
   "type": "object",
+  "x-playground": {
+    "input": [
+      "// settings for a small web service",
+      "service   name=\"inventory\"    port=8080 debug=#false",
+      "database {",
+      "host \"db.internal\"; port 5432",
+      "    user   \"inventory\"",
+      "  pool   min=2   max=10",
+      "}",
+      "routes {",
+      "        route \"/items\"   method=\"GET\" handler=\"list_items\"",
+      "  route \"/items/{id}\" method=\"GET\"   handler=\"get_item\"",
+      "  route \"/items\"  method=\"POST\" handler=\"create_item\" auth=#true",
+      "}",
+      "logging level=\"info\" {",
+      "    output   \"stdout\"",
+      "  output \"/var/log/inventory.log\" rotate=\"daily\"",
+      "}"
+    ]
+  },
   "properties": {
     "kdlVersion": {
       "description": "The version of KDL to format the files as. A `/- kdl-version 1` or `/- kdl-version 2` marker on the first line of a file takes precedence.",
@@ -13,7 +33,14 @@
       }, {
         "const": "v2",
         "description": "KDL 2.0."
-      }]
+      }],
+      "x-example": {
+        "input": [
+          "package name=\"my-app\" version=\"1.0.0\" {",
+          "  license \"MIT\"",
+          "}"
+        ]
+      }
     }
   }
 }
